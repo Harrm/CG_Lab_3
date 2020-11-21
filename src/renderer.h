@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "dx12_labs.h"
 
 #include "win32_window.h"
@@ -9,11 +11,23 @@ class Renderer
 public:
 	Renderer(UINT width, UINT height) : width(width), height(height), title(L"DX12 renderer"), frame_index(0), rtv_descriptor_size(0)
 	{
+		view_port = CD3DX12_VIEWPORT(0.f, 0.f, width, height);
+		scissor_rect = CD3DX12_RECT(0.f, 0.f, width, height);
 
-		//eye_position = XMVECTOR({ 0.0f, 1.0f, -5.0f });
-		//projection = XMMatrixPerspectiveFovLH(60.f*XM_PI/180.f, aspect_ratio, 0.001f, 100.f);
+		world = XMMatrixIdentity();
+
+		eye_position = XMVECTOR({ 0.0f, 1.0f, -5.0f });
+		auto focus_position = eye_position + XMVECTOR{ sin(angle), 0.f, cos(angle) };
+		auto up_direction = XMVECTOR{ 0.f, 1.f, 0.f };
+		view = XMMatrixLookAtLH(eye_position, focus_position, up_direction);
+
+		aspect_ratio = static_cast<float>(width) / height;
+		projection = XMMatrixPerspectiveFovLH(60.f * XM_PI / 180.f, aspect_ratio, 0.001f, 100.f);
+
+		world_view_projection = world * view * projection;
 	};
-	virtual ~Renderer() {};
+
+	virtual ~Renderer() = default;
 
 	virtual void OnInit();
 	virtual void OnUpdate();
@@ -32,7 +46,7 @@ protected:
 	UINT height;
 	std::wstring title;
 
-	static const UINT frame_number = 2;
+	static const UINT kFrameNumber = 2;
 
 	// Pipeline objects.
 	ComPtr<ID3D12Device> device;
@@ -40,9 +54,9 @@ protected:
 	ComPtr<IDXGISwapChain3> swap_chain;
 	ComPtr<ID3D12DescriptorHeap> rtv_heap;
 	ComPtr<ID3D12DescriptorHeap> cbv_heap;
-	UINT rtv_descriptor_size;
-	ComPtr<ID3D12Resource> render_targets[frame_number];
-	ComPtr<ID3D12CommandAllocator> command_allocators[frame_number];
+	UINT rtv_descriptor_size{};
+	std::array<ComPtr<ID3D12Resource>, kFrameNumber> render_targets;
+	ComPtr<ID3D12CommandAllocator> command_allocators[kFrameNumber];
 	ComPtr<ID3D12PipelineState> pipeline_state;
 	ComPtr<ID3D12GraphicsCommandList> command_list;
 
@@ -51,21 +65,21 @@ protected:
 	CD3DX12_RECT scissor_rect;
 
 	// Resources
-	std::vector<ColorVertex> verteces;
+	std::vector<ColorVertex> vertices;
 	ComPtr<ID3D12Resource> vertex_buffer;
 	D3D12_VERTEX_BUFFER_VIEW vertex_buffer_view;
 
 	XMMATRIX world_view_projection;
 	ComPtr<ID3D12Resource> constant_buffer;
-	UINT8* constant_buffer_data_begin;
+	UINT8* constant_buffer_data_begin{};
 
 	// Synchronization objects.
-	UINT frame_index;
-	HANDLE fence_event;
-	ComPtr<ID3D12Fence> fence;
-	UINT64 fence_values[frame_number];
+	UINT frame_index{};
+	HANDLE fence_event{};
+	ComPtr<ID3D12Fence> fence{};
+	UINT64 fence_values[kFrameNumber]{ 1, 1 };
 
-	float aspect_ratio;
+	float aspect_ratio{};
 
 	void LoadPipeline();
 	void LoadAssets();

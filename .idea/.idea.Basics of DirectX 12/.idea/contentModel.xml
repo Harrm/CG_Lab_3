@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Harrm\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Harrm\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_Basics of DirectX 12.980168558.00" t="ExcludeRecursive" />
+    <e p="D:\Projects\CG_Lab_3" t="IncludeRecursive">
+      <e p="Basics of DirectX 12.sln" t="IncludeFlat" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="DX12 installation check.vcxproj" t="IncludeRecursive" />
+      <e p="DX12 window.vcxproj" t="IncludeRecursive" />
+      <e p="libs" t="Include">
+        <e p="tinyobjloader" t="Include">
+          <e p="tiny_obj_loader.h" t="Include" />
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="src" t="Include">
+        <e p="dx12_check_main.cpp" t="Include" />
+        <e p="dx12_labs.h" t="Include" />
+        <e p="renderer.cpp" t="Include" />
+        <e p="renderer.h" t="Include" />
+        <e p="win32_window.cpp" t="Include" />
+        <e p="win32_window.h" t="Include" />
+        <e p="win32_window_main.cpp" t="Include" />
+      </e>
+    </e>
+  </component>
+</project>
