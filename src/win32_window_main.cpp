@@ -3,7 +3,7 @@
 #include "win32_window.h"
 
 
-int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, INT nCmdShow)
+int WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT nCmdShow)
 {
 	try
 	{

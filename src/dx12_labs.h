@@ -4,6 +4,7 @@
 #define UNICODE
 #endif
 
+#pragma warning(push, 0)
 #include <Windows.h>
 
 #include <wrl.h>
@@ -16,10 +17,11 @@
 
 #include <D3Dcompiler.h>
 #include <DirectXMath.h>
-
 #include <iostream>
 
 #include <exception>
+#pragma warning(pop)
+
 
 using namespace Microsoft::WRL;
 

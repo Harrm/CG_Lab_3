@@ -1,6 +1,8 @@
 #pragma once
 
+#pragma warning(push, 0)        
 #include <array>
+#pragma warning(pop)
 
 #include "dx12_labs.h"
 
@@ -11,8 +13,8 @@ class Renderer
 public:
 	Renderer(UINT width, UINT height) : width(width), height(height), title(L"DX12 renderer"), frame_index(0), rtv_descriptor_size(0)
 	{
-		view_port = CD3DX12_VIEWPORT(0.f, 0.f, width, height);
-		scissor_rect = CD3DX12_RECT(0.f, 0.f, width, height);
+		view_port = CD3DX12_VIEWPORT(0.f, 0.f,static_cast<float>(width), static_cast<float>(height));
+		scissor_rect = CD3DX12_RECT(0l, 0l, width, height);
 
 		world = XMMatrixIdentity();
 

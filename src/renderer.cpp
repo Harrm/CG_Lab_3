@@ -1,12 +1,16 @@
 #include "renderer.h"
 
+
+#pragma warning(push, 0)        
 #include <locale>
 #include <codecvt>
+#include <thread>
+#include <chrono>
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
 #include "d3dx12.h"
-
+#pragma warning(pop)
 
 void Renderer::OnInit()
 {
@@ -385,7 +389,7 @@ void Renderer::WaitForGPU()
 {
 	ThrowIfFailed(command_queue->Signal(fence.Get(), fence_values[frame_index]));
 	ThrowIfFailed(fence->SetEventOnCompletion(fence_values[frame_index], fence_event));
-	WaitForSingleObjectEx(fence_event, INFINITY, false);
+	WaitForSingleObjectEx(fence_event, INFINITE, false);
 	fence_values[frame_index]++;
 }
 
@@ -398,7 +402,7 @@ void Renderer::MoveToNextFrame()
 
 	if (fence->GetCompletedValue() < fence_values[frame_index]) {
 		ThrowIfFailed(fence->SetEventOnCompletion(fence_values[frame_index], fence_event));
-		WaitForSingleObjectEx(fence_event, INFINITY, false);
+		WaitForSingleObjectEx(fence_event, INFINITE, false);
 	}
 	fence_values[frame_index] = current_fence_value + 1;
 }
